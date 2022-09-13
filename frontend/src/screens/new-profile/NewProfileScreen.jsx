@@ -1,229 +1,121 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Paper from "@mui/material/Paper";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { useNavigate, useParams } from "react-router-dom";
-import { getProfileById, createProfile } from "../../service/profile-service";
-
-const EMPTY_STATE = {
-  name: "",
-  weight: "",
-  type: "ShuttleVehicle",
-  speed: "",
-  tonsOfPropulsion: "",
-  loadCapacity: "",
-  crewCapacity: "",
-  quantity: "",
-};
+import { useNavigate } from "react-router-dom";
+import { createProfile } from "../../service/profile-service";
+import CountrySelect from "../../components/CountrySelect";
 
 export const NewProfileScreen = () => {
   const navigate = useNavigate();
-  const params = useParams();
 
-  const [formData, setFormData] = useState(EMPTY_STATE);
+  const [formData, setFormData] = useState({
+    name: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    city: "",
+    country: "",
+  });
 
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-
+    console.log("name:" + name + "value: " + value);
+    console.log(e);
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleCountryChange = (country) => {
+    setFormData({ ...formData, country: country.label });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await createProfile(formData.quantity, formData.type, formData);
+    const profile = {
+      name: formData.name,
+      lastName: formData.lastName,
+      email: formData.email,
+      phoneNumber: formData.phoneNumber,
+      city: formData.city,
+      country: formData.country,
+    };
+    await createProfile(profile);
     navigate("/", { replace: true });
   };
 
-  const loadItemById = async (id) => {
-    const item = await getProfileById(id);
-    setFormData({
-      type: item.spacecraft.getType(),
-      quantity: item.quantity,
-      ...item.spacecraft.toJSON(),
-    });
-  };
-
-  useEffect(() => {
-    if (params.id) {
-      loadItemById(params.id);
-    }
-  }, [params.id]);
-
-  const isEditable = params.id ? true : false;
-
   return (
     <Paper component="form" onSubmit={handleSubmit}>
-      <FormControl fullWidth>
-        <InputLabel id="Type">Type</InputLabel>
-        <Select
-          labelId="Type"
-          label="Type"
-          name="type"
-          required
-          disabled={isEditable}
-          value={formData.type}
-          onChange={handleChange}
-        >
-          <MenuItem value={"ShuttleVehicle"}>ShuttleVehicle</MenuItem>
-          <MenuItem value={"UncrewedSpacecraft"}>UncrewedSpacecraft</MenuItem>
-          <MenuItem value={"CrewedSpacecraft"}>CrewedSpacecraft</MenuItem>
-        </Select>
-      </FormControl>
       <TextField
         margin="dense"
-        label="Lastname"
-        name="lastname"
+        label="Name"
+        name="name"
         type="text"
         fullWidth
         required
         variant="outlined"
-        disabled={isEditable}
         value={formData.name}
         onChange={handleChange}
       />
       <TextField
         margin="dense"
-        label="Weight [Ton]"
-        name="weight"
-        type="number"
+        label="LastName"
+        name="lastName"
+        type="text"
         fullWidth
         required
         variant="outlined"
-        disabled={isEditable}
-        value={formData.weight}
+        value={formData.lastName}
         onChange={handleChange}
       />
       <TextField
         margin="dense"
-        label="Quantity"
-        name="quantity"
+        label="Email"
+        name="email"
+        type="email"
+        fullWidth
+        required
+        variant="outlined"
+        value={formData.email}
+        onChange={handleChange}
+      />
+      <TextField
+        margin="dense"
+        label="Phone Number"
+        name="phoneNumber"
         type="number"
         fullWidth
         required
         variant="outlined"
-        value={formData.quantity}
+        value={formData.phoneNumber}
         onChange={handleChange}
       />
 
-      {formData.type === "ShuttleVehicle" && (
-        <>
-          <TextField
-            margin="dense"
-            label="Tons Of Propulsion [Ton]"
-            name="tonsOfPropulsion"
-            type="number"
-            fullWidth
-            required
-            variant="outlined"
-            disabled={isEditable}
-            value={formData.tonsOfPropulsion}
-            onChange={handleChange}
-          />
+      <TextField
+        margin="dense"
+        label="City"
+        name="city"
+        type="text"
+        fullWidth
+        required
+        variant="outlined"
+        value={formData.city}
+        onChange={handleChange}
+      />
 
-          <TextField
-            margin="dense"
-            label="Load Capacity [Ton]"
-            name="loadCapacity"
-            type="number"
-            fullWidth
-            required
-            variant="outlined"
-            disabled={isEditable}
-            value={formData.loadCapacity}
-            onChange={handleChange}
-          />
-        </>
-      )}
-
-      {formData.type === "CrewedSpacecraft" && (
-        <>
-          <TextField
-            margin="dense"
-            label="Speed [Km/h]"
-            name="speed"
-            type="number"
-            fullWidth
-            required
-            variant="outlined"
-            disabled={isEditable}
-            value={formData.speed}
-            onChange={handleChange}
-          />
-
-          <TextField
-            margin="dense"
-            label="Crew Capacity [persons]"
-            name="crewCapacity"
-            type="number"
-            fullWidth
-            required
-            variant="outlined"
-            disabled={isEditable}
-            value={formData.crewCapacity}
-            onChange={handleChange}
-          />
-        </>
-      )}
-
-      {formData.type === "UncrewedSpacecraft" && (
-        <>
-          <TextField
-            margin="dense"
-            label="Speed [Km/h]"
-            name="speed"
-            type="number"
-            fullWidth
-            required
-            variant="outlined"
-            disabled={isEditable}
-            value={formData.speed}
-            onChange={handleChange}
-          />
-
-          <TextField
-            margin="dense"
-            label="Tons Of Propulsion [Tons]"
-            name="tonsOfPropulsion"
-            type="number"
-            fullWidth
-            required
-            variant="outlined"
-            disabled={isEditable}
-            value={formData.tonsOfPropulsion}
-            onChange={handleChange}
-          />
-        </>
-      )}
+      <CountrySelect
+        label="Country"
+        name="country"
+        variant="outlined"
+        value={formData.country}
+        onChange={handleCountryChange}
+      />
 
       <Stack spacing={2} direction="row">
-        {isEditable == false && (
-          <Button type="submit" fullWidth variant="contained">
-            Save
-          </Button>
-        )}
-
-        {isEditable == true && (
-          <>
-            <Button
-              onClick={createProfile}
-              fullWidth
-              variant="contained"
-              color="error"
-            >
-              Delete
-            </Button>
-            <Button onClick={createProfile} fullWidth variant="contained">
-              Update
-            </Button>
-          </>
-        )}
+        <Button type="submit" fullWidth variant="contained">
+          Save
+        </Button>
       </Stack>
     </Paper>
   );
