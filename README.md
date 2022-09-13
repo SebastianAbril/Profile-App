@@ -13,8 +13,12 @@ El Frontend se construyo con una arquitectura de dos capas: Pantallas y Servicio
 - Pantallas: contiene las pantallas que componen la interfaz de usuario:
 
     - ProfileListScreen.
+    ![ProfileListScreen](./ProfileListScreen.png)
     - NewProfileScreen.
+    ![NewProfileScreen](./NewProfileScreen.png)
     - ViewProfileScreen.
+    ![ViewProfileScreen](./ViewProfileScreen.png)
+    
 
 - Servicios: contiene las funciones que nos permiten comunicar el Frontend con la Backend API:
 
@@ -32,7 +36,7 @@ Las rutas establecidas con React Router son:
 - "/profile/:id": pantalla para ver un Perfil, se llega a  `ViewProfileScreen` clickeando en una fila de la tabla en `ProfileListScreen`.
 
 ### Backend
-El Backend / Profile-API fue realizado con Springboot, tiene una arquitectura de 3 capaz: controlador, servicio y repositorio. Se uso JPA con SpringData para la capa de repositorio y se usa h2 como base de datos en memoria.
+El Backend Profile-API fue realizado con Springboot, tiene una arquitectura de 3 capas: controlador, servicio y repositorio. Se uso JPA con SpringData para la capa de repositorio y se usa h2 como base de datos en memoria.
 
 - Profile: esta clase representa el model que contiene los siguientes atributos:
 
@@ -60,7 +64,7 @@ Requisitos:
 - Node 16
 
 ### Instrucciones para correr el backend:
- - 1. Ve a la carpeta 'backend' y abre una nueva terminal (Gitbash si es Windows). Ejecuta el sigueinte comando:
+ - Ve a la carpeta 'backend' y abre una nueva terminal (Gitbash si es Windows). Ejecuta el sigueinte comando:
  
     ```console
     ./gradlew bootRun
@@ -68,9 +72,10 @@ Requisitos:
 
 ### instrucciones para correr  el frontend:
 
-1. Ve a la carpeta 'frontend' y abre una nueva terminal. Ejecuta los siguientes códigos en el orden propuesto:
+- Ve a la carpeta 'frontend' y abre una nueva terminal. Ejecuta los siguientes códigos en el orden propuesto:
 
     ```console
     npm install
     npm run start
     ```
+-Abrir el navegador e ir http://localhost:3000/

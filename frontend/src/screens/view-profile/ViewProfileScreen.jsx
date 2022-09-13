@@ -8,8 +8,14 @@ import { getProfileById } from "../../service/profile-service";
 import { NameAvatar } from "../../components/NameAvatar";
 
 export const ViewProfileScreen = () => {
-  const [profile, setProfile] = useState({});
-
+  const [profile, setProfile] = useState({
+    name: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    city: "",
+    country: "",
+  });
   const params = useParams();
   const loadProfileById = async (id) => {
     const profile = await getProfileById(id);

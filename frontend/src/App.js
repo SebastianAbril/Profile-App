@@ -1,4 +1,3 @@
-import "./App.css";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,8 +8,6 @@ import { NewProfileScreen } from "./screens/new-profile/NewProfileScreen";
 import { ViewProfileScreen } from "./screens/view-profile/ViewProfileScreen";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
-
-// CSSBaseline is a normalize.css
 
 function App() {
   return (

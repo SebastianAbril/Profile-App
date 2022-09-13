@@ -22,8 +22,6 @@ export const NewProfileScreen = () => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log("name:" + name + "value: " + value);
-    console.log(e);
     setFormData({ ...formData, [name]: value });
   };
 
